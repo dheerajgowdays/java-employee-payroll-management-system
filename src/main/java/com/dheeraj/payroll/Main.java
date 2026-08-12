@@ -43,6 +43,7 @@ public class Main {
                     break;
                 case 2:
                     //search employee
+                    employeeOperations.deleteEmployee();
                     break;
                 case 3:
                     //view all employee

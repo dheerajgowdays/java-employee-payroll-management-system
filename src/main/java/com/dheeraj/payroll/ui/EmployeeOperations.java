@@ -26,4 +26,9 @@ public class EmployeeOperations {
         Employee employee = new Employee(employeeId,employeeName,department,employeeType,salary);
         employeeService.addEmployee(employeeId,employee);
     }
+    public void deleteEmployee(){
+        IO.println("Enter Employee ID: ");
+        long employeeId = sc.nextLong();
+        employeeService.deleteEmployee(employeeId);
+    }
 }

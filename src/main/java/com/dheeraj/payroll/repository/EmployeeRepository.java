@@ -9,4 +9,7 @@ public class EmployeeRepository {
     public void addEmployee(long id,Employee employee){
         employees.put(id,employee);
     }
+    public void deleteEmployee(long id){
+        employees.remove(id);
+    }
 }

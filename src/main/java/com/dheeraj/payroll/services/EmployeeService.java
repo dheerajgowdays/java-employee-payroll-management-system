@@ -9,4 +9,10 @@ public class EmployeeService {
         employeeRepository.addEmployee(id,employee);
         IO.println("The Employee Created Of ID: "+id);
     }
+
+    public void deleteEmployee(long id){
+        employeeRepository.deleteEmployee(id);
+        IO.println("Deleted Employee with Id: "+id);
+    
+    }
 }
