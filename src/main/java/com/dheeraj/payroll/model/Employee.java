@@ -2,7 +2,6 @@ package com.dheeraj.payroll.model;
 
 import com.dheeraj.payroll.enums.Department;
 import com.dheeraj.payroll.enums.EmployeeType;
-import com.dheeraj.payroll.util.Generator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
