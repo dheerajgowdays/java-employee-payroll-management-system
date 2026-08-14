@@ -40,6 +40,7 @@ public class Main {
             IO.println("18. EXIT");
             IO.println("\n  Enter Your Choice: ");
             int choice = sc.nextInt();
+            sc.nextLine();
             switch (choice) {
                 case 1:
                     //add employee
@@ -47,18 +48,19 @@ public class Main {
                     break;
                 case 2:
                     //search employee
-                    employeeOperations.deleteEmployee();
+                    employeeOperations.searchEmployee();
                     break;
                 case 3:
                     //view all employee
-                    employeeOperations.searchEmployee();
+                    employeeOperations.getAllEmployee();
                     break;
                 case 4:
-                    employeeOperations.updateEmployee();
                     //update employee
+                    employeeOperations.updateEmployee();
                     break;
                 case 5:
                     //remove employee
+                    employeeOperations.deleteEmployee();
                     break;
                 case 6:
                     //mark attendance
@@ -101,7 +103,9 @@ public class Main {
                     IO.println("    THANK YOU   ");
                     System.exit(0);
                 default:
-                    IO.println("ENTER A VALID CHOICE ! ");
+                    IO.println("-----------------------------");
+                    IO.println("    ENTER A VALID CHOICE !");
+                    IO.println("-----------------------------");
             }
         }
     }
