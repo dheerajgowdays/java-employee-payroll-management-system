@@ -6,7 +6,6 @@ import com.dheeraj.payroll.enums.EmployeeType;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-
 public class Employee {
 
     private final long employeeId;

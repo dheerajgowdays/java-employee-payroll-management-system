@@ -9,28 +9,18 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class EmployeeService {
-    EmployeeRepository employeeRepository = new EmployeeRepository();
-
-    public void output(Employee employee){
-        IO.println("\n--------------------------------------------");
-        IO.println("Employee ID  : "+employee.getEmployeeId());
-        IO.println("Employee Name: "+employee.getEmployeeName());
-        IO.println("Department   : "+employee.getDepartment());
-        IO.println("Employee Type: "+employee.getEmployeeType());
-        IO.println("Salary       : "+employee.getSalary());
-        IO.println("Joining Date : "+employee.getJoiningDate());
-        IO.println("--------------------------------------------");
+    EmployeeRepository employeeRepository;
+    public EmployeeService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
-    public void addEmployee(long id, Employee employee){
+    public boolean addEmployee(long id, Employee employee){
         employeeRepository.addEmployee(id,employee);
-        IO.println("--------------------------------------------------");
-        IO.println("       The Employee Created Of ID: "+id);
-        IO.println("--------------------------------------------------");
+        return true;
     }
-    public void searchByEmployeeId(long id){
+    public Employee searchByEmployeeId(long id){
         if(employeeRepository.contains(id)){
-            Employee employee = employeeRepository.ifIdExist(id);
-            output(employee);
+            Employee employee = employeeRepository.findById(id);
+            return employee;
         }else{
             IO.println("--------------------------------------------");
             IO.println("     Employee Does not exist with Id: "+id);
@@ -56,29 +46,29 @@ public class EmployeeService {
         return employeeRepository.contains(id);
     }
     public void updateEmployeeName(long id,String name){
-        Employee employee = employeeRepository.ifIdExist(id);
-        employee.setEmployeeName(name);
+        Employee employee = employeeRepository.findById(id);
+        employeeRepository.updateEmployeeName(name,employee);
         IO.println("-------------------------------------------");
         IO.println("    Employee Name Updated Successfully");
         IO.println("-------------------------------------------");
     }
     public void updateEmployeeDepartment(long id, Department department){
-        Employee employee = employeeRepository.ifIdExist(id);
-        employee.setDepartment(department);
+        Employee employee = employeeRepository.findById(id);
+        employeeRepository.updateEmployeeDepartment(department,employee);
         IO.println("--------------------------------------------------");
         IO.println("     Employee Department Updated Successfully");
         IO.println("--------------------------------------------------");
     }
     public void updateEmployeeType(long id, EmployeeType employeeType){
-        Employee employee = employeeRepository.ifIdExist(id);
-        employee.setEmployeeType(employeeType);
+        Employee employee = employeeRepository.findById(id);
+        employeeRepository.updateEmployeeType(employeeType,employee);
         IO.println("--------------------------------------------------");
         IO.println("       Employee Type Updated Successfully");
         IO.println("--------------------------------------------------");
     }
     public void updateSalary(long id, BigDecimal salary){
-        Employee employee = employeeRepository.ifIdExist(id);
-        employee.setSalary(salary);
+        Employee employee = employeeRepository.findById(id);
+        employeeRepository.updateSalary(salary,employee);
         IO.println("--------------------------------------------------");
         IO.println("     Employee Salary Updated Successfully");
         IO.println("--------------------------------------------------");
@@ -94,5 +84,9 @@ public class EmployeeService {
             IO.println("     Successfully Deleted Employee with Id: " + id);
             IO.println("----------------------------------------------------");
         }
+    }
+    public void checkId(){
+        IO.println("--------------------------------------------------------------------------------");
+        throw new com.dheeraj.payroll.exception.EmployeeNotFoundException("Enter A Valid ID \n--------------------------------------------------------------------------------");
     }
 }
