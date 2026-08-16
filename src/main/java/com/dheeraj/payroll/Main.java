@@ -1,17 +1,29 @@
 package com.dheeraj.payroll;
 
+import com.dheeraj.payroll.repository.AttendanceRepository;
+import com.dheeraj.payroll.repository.EmployeeRepository;
+import com.dheeraj.payroll.services.AttendanceService;
+import com.dheeraj.payroll.services.EmployeeService;
+import com.dheeraj.payroll.ui.AttendanceUI;
 import com.dheeraj.payroll.ui.EmployeeUI;
+import com.dheeraj.payroll.util.Generator;
 
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main( String[] args) {
+    public static void main(String[] args) {
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
         Scanner sc = new Scanner(System.in);
-        EmployeeUI employeeOperations = new EmployeeUI();
+        Generator generator = new Generator();
+        EmployeeRepository employeeRepository = new EmployeeRepository();
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        EmployeeUI employeeOperations = new EmployeeUI(generator,employeeService,sc);
+        AttendanceRepository attendanceRepository = new AttendanceRepository();
+        AttendanceService attendanceService = new AttendanceService(attendanceRepository,employeeRepository);
+        AttendanceUI attendanceUI = new AttendanceUI(attendanceService,sc);
         while (true){
             IO.println("\n========================================");
             IO.println("     Employee Payroll Management");
@@ -64,12 +76,15 @@ public class Main {
                     break;
                 case 6:
                     //mark attendance
+                    attendanceUI.markAttendance();
                     break;
                 case 7:
                     //view employee attendance
+                    attendanceUI.viewAttendance();
                     break;
                 case 8:
                     //view monthly attendance
+                    attendanceUI.viewAttendanceByMonth();
                     break;
                 case 9:
                     //calculate salary

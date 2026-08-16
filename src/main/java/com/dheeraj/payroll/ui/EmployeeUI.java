@@ -2,18 +2,25 @@ package com.dheeraj.payroll.ui;
 import com.dheeraj.payroll.enums.Department;
 import com.dheeraj.payroll.enums.EmployeeType;
 import com.dheeraj.payroll.model.Employee;
-import com.dheeraj.payroll.repository.EmployeeRepository;
 import com.dheeraj.payroll.services.EmployeeService;
 import com.dheeraj.payroll.util.Generator;
 import java.math.BigDecimal;
 import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class EmployeeUI {
-    Scanner sc = new Scanner(System.in);
-    Generator generator = new Generator();
-    EmployeeRepository employeeRepository = new EmployeeRepository();
-    EmployeeService employeeService = new EmployeeService(employeeRepository);
+
+    Scanner sc ;
+    Generator generator;
+    EmployeeService employeeService;
+    public EmployeeUI(Generator generator,EmployeeService employeeService,Scanner sc) {
+        this.generator = generator;
+        this.employeeService =employeeService;
+        this.sc = sc;
+    }
+
     public void output(Employee employee){
         IO.println("\n--------------------------------------------");
         IO.println("Employee ID  : "+employee.getEmployeeId());
@@ -25,34 +32,37 @@ public class EmployeeUI {
         IO.println("--------------------------------------------");
     }
     public void addEmployee() {
-        sc.nextLine();
         IO.print("Enter Employee Name: ");
-        String employeeName = "";
+        String employeeName;
         try {
             employeeName = sc.nextLine();
         } catch (IllegalArgumentException e) {
             IO.println("Invalid Input! Please Enter String Only");
+            return;
         }
         IO.print("Enter Department: ");
-        Department department = null;
+        Department department ;
         try {
             department = Department.valueOf(sc.nextLine().trim().toUpperCase());
         } catch (IllegalArgumentException e) {
             IO.println("Invalid Input! Please Enter Valid Department Only");
+            return;
         }
         IO.print("Enter Employee Type: ");
-        EmployeeType employeeType = null;
+        EmployeeType employeeType ;
         try {
             employeeType = EmployeeType.valueOf(sc.nextLine().trim().toUpperCase());
         } catch (IllegalArgumentException e) {
             IO.println("Invalid Input! Please Enter Valid Employee Type Only");
+            return;
         }
         IO.print("Enter Salary: ");
-        BigDecimal salary = null;
+        BigDecimal salary;
         try {
             salary = sc.nextBigDecimal();
         } catch (InputMismatchException e) {
             IO.println("Invalid Input! Please Enter Numbers Only");
+            return;
         }
         long employeeId = generator.employeeIdGenerator();
         Employee employee = new Employee(employeeId, employeeName, department, employeeType, salary);
@@ -66,7 +76,14 @@ public class EmployeeUI {
         IO.print("Enter Employee ID: ");
         try {
             long employeeId = sc.nextLong();
-            employeeService.searchByEmployeeId(employeeId);
+            Optional<Employee> employee =employeeService.searchByEmployeeId(employeeId);
+            if(employee.isEmpty()){
+                IO.println("--------------------------------------------");
+                IO.println("     Employee Does not exist with Id: "+employeeId);
+                IO.println("--------------------------------------------");
+            }else{
+                employee.ifPresent(this::output);
+            }
         } catch (InputMismatchException e) {
             IO.println("Invalid Input! Please Enter  Numbers Only");
         }
@@ -106,7 +123,11 @@ public class EmployeeUI {
                         } catch (IllegalArgumentException e) {
                             IO.println("Invalid Input! Please Enter String Only");
                         }
-                        employeeService.updateEmployeeName(employeeId,employeeName);
+                        if(employeeService.updateEmployeeName(employeeId,employeeName)){
+                            IO.println("--------------------------------------------------");
+                            IO.println("     Employee Name Updated Successfully");
+                            IO.println("--------------------------------------------------");
+                        }
                         break;
                     case 2:
                         IO.print("Enter Employee Department: ");
@@ -116,7 +137,11 @@ public class EmployeeUI {
                         } catch (IllegalArgumentException e) {
                             IO.println("Invalid Input! Please Enter Valid Department Only");
                         }
-                        employeeService.updateEmployeeDepartment(employeeId,department);
+                        if(employeeService.updateEmployeeDepartment(employeeId,department)){
+                            IO.println("--------------------------------------------------");
+                            IO.println("     Employee Department Updated Successfully");
+                            IO.println("--------------------------------------------------");
+                        }
                         break;
                     case 3:
                         IO.print("Enter Employee Type: ");
@@ -126,7 +151,11 @@ public class EmployeeUI {
                         } catch (IllegalArgumentException e) {
                             IO.println("Invalid Input! Please Enter Valid Employee Type Only");
                         }
-                        employeeService.updateEmployeeType(employeeId,employeeType);
+                        if(employeeService.updateEmployeeType(employeeId,employeeType)){
+                            IO.println("--------------------------------------------------");
+                            IO.println("       Employee Type Updated Successfully");
+                            IO.println("--------------------------------------------------");
+                        }
                         break;
                     case 4:
                         IO.print("Enter Salary: ");
@@ -137,7 +166,11 @@ public class EmployeeUI {
                         } catch (InputMismatchException e) {
                             IO.println("Invalid Input! Please Enter Numbers Only");
                         }
-                        employeeService.updateSalary(employeeId,salary);
+                        if(employeeService.updateSalary(employeeId,salary)){
+                            IO.println("--------------------------------------------------");
+                            IO.println("     Employee Salary Updated Successfully");
+                            IO.println("--------------------------------------------------");
+                        }
                         break;
                     case 5:
                         break label;
@@ -150,14 +183,32 @@ public class EmployeeUI {
         }
     }
     public void getAllEmployee(){
-        employeeService.getAllEmployee();
+        List<Employee> employees = employeeService.getAllEmployee();
+        if (employees.isEmpty()) {
+            IO.println("----------------------------");
+            IO.println("     NO Employee Exist      ");
+            IO.println("----------------------------");
+        } else {
+            IO.println("----------------------------");
+            IO.println("       EMPLOYEE LIST        ");
+            IO.println("----------------------------");
+            employees
+                    .forEach(this::output);
+        }
     }
     public void deleteEmployee(){
         IO.print("Enter Employee ID: ");
         try {
             long employeeId = sc.nextLong();
-            employeeService.deleteEmployee(employeeId);
-
+            if(employeeService.deleteEmployee(employeeId)){
+                IO.println("----------------------------------------------------");
+                IO.println("     Successfully Deleted Employee with Id: " + employeeId);
+                IO.println("----------------------------------------------------");
+            }else{
+                IO.println("--------------------------------------------------");
+                IO.println("      Employee does not exist with ID: "+employeeId);
+                IO.println("--------------------------------------------------");
+            }
         } catch (InputMismatchException e) {
             IO.println("Invalid Input! Please Enter  Numbers Only");
         }

@@ -6,7 +6,9 @@ import com.dheeraj.payroll.model.Employee;
 import com.dheeraj.payroll.repository.EmployeeRepository;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class EmployeeService {
     EmployeeRepository employeeRepository;
@@ -17,72 +19,45 @@ public class EmployeeService {
         employeeRepository.addEmployee(id,employee);
         return true;
     }
-    public Employee searchByEmployeeId(long id){
+    public Optional<Employee> searchByEmployeeId(long id){
         if(employeeRepository.contains(id)){
             Employee employee = employeeRepository.findById(id);
-            return employee;
-        }else{
-            IO.println("--------------------------------------------");
-            IO.println("     Employee Does not exist with Id: "+id);
-            IO.println("--------------------------------------------");
+            return Optional.ofNullable(employee);
         }
+        return Optional.empty();
     }
-    public void getAllEmployee() {
-        List<Employee> employees = (List<Employee>) employeeRepository.getAllEmployee();
-
-        if (employees.isEmpty()) {
-            IO.println("----------------------------");
-            IO.println("     NO Employee Exist      ");
-            IO.println("----------------------------");
-        } else {
-            IO.println("----------------------------");
-            IO.println("       EMPLOYEE LIST        ");
-            IO.println("----------------------------");
-            employees
-                    .forEach(this::output);
-        }
+    public List<Employee> getAllEmployee() {
+        return new ArrayList<>(employeeRepository.getAllEmployee());
     }
     public boolean checkID(long id){
         return employeeRepository.contains(id);
     }
-    public void updateEmployeeName(long id,String name){
+    public boolean updateEmployeeName(long id,String name){
         Employee employee = employeeRepository.findById(id);
         employeeRepository.updateEmployeeName(name,employee);
-        IO.println("-------------------------------------------");
-        IO.println("    Employee Name Updated Successfully");
-        IO.println("-------------------------------------------");
+        return true;
     }
-    public void updateEmployeeDepartment(long id, Department department){
+    public boolean updateEmployeeDepartment(long id, Department department){
         Employee employee = employeeRepository.findById(id);
         employeeRepository.updateEmployeeDepartment(department,employee);
-        IO.println("--------------------------------------------------");
-        IO.println("     Employee Department Updated Successfully");
-        IO.println("--------------------------------------------------");
+        return true;
     }
-    public void updateEmployeeType(long id, EmployeeType employeeType){
+    public boolean updateEmployeeType(long id, EmployeeType employeeType){
         Employee employee = employeeRepository.findById(id);
         employeeRepository.updateEmployeeType(employeeType,employee);
-        IO.println("--------------------------------------------------");
-        IO.println("       Employee Type Updated Successfully");
-        IO.println("--------------------------------------------------");
+        return true;
     }
-    public void updateSalary(long id, BigDecimal salary){
+    public boolean updateSalary(long id, BigDecimal salary){
         Employee employee = employeeRepository.findById(id);
         employeeRepository.updateSalary(salary,employee);
-        IO.println("--------------------------------------------------");
-        IO.println("     Employee Salary Updated Successfully");
-        IO.println("--------------------------------------------------");
+        return true;
     }
-    public void deleteEmployee(long id){
+    public boolean deleteEmployee(long id){
         if(!employeeRepository.contains(id)){
-            IO.println("--------------------------------------------------");
-            IO.println("      Employee does not exist with ID: "+id);
-            IO.println("--------------------------------------------------");
+            return false;
         }else {
             employeeRepository.deleteEmployee(id);
-            IO.println("----------------------------------------------------");
-            IO.println("     Successfully Deleted Employee with Id: " + id);
-            IO.println("----------------------------------------------------");
+            return true;
         }
     }
     public void checkId(){
