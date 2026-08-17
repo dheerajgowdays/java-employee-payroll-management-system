@@ -3,10 +3,13 @@ package com.dheeraj.payroll;
 import com.dheeraj.payroll.model.Payslip;
 import com.dheeraj.payroll.repository.AttendanceRepository;
 import com.dheeraj.payroll.repository.EmployeeRepository;
+import com.dheeraj.payroll.repository.PayslipRepository;
 import com.dheeraj.payroll.services.AttendanceService;
 import com.dheeraj.payroll.services.EmployeeService;
+import com.dheeraj.payroll.services.PayslipService;
 import com.dheeraj.payroll.ui.AttendanceUI;
 import com.dheeraj.payroll.ui.EmployeeUI;
+import com.dheeraj.payroll.ui.PayslipUI;
 import com.dheeraj.payroll.ui.ReportsUI;
 import com.dheeraj.payroll.util.Generator;
 
@@ -26,7 +29,9 @@ public class Main {
         AttendanceRepository attendanceRepository = new AttendanceRepository();
         AttendanceService attendanceService = new AttendanceService(attendanceRepository,employeeRepository);
         AttendanceUI attendanceUI = new AttendanceUI(attendanceService,sc);
-        Payslip payslip = new Payslip(sc);
+        PayslipRepository payslipRepository = new PayslipRepository();
+        PayslipService payslipService = new PayslipService(employeeService,payslipRepository);
+        PayslipUI payslipUI = new PayslipUI(sc,payslipService);
         ReportsUI reportsUI = new ReportsUI(sc,employeeService);
         while (true){
             IO.println("\n========================================");
@@ -92,13 +97,15 @@ public class Main {
                     break;
                 case 9:
                     //calculate salary
-
+                    payslipUI.calculateSalary();
                     break;
                 case 10:
                     //Generate Payslip
+                    payslipUI.generatePayslip();
                     break;
                 case 11:
                     //view Payslip
+                    payslipUI.viewPayslip();
                     break;
                 case 12:
                     //employee by department
@@ -110,6 +117,7 @@ public class Main {
                     break;
                 case 14:
                     //Highest paid employee
+                    reportsUI.highestPaidEmployee();
                     break;
                 case 15:
                     //average salary
