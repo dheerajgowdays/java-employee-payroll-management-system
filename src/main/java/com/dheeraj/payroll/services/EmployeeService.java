@@ -60,6 +60,12 @@ public class EmployeeService {
             return true;
         }
     }
+    public List<Employee> employeesByDepartment(Department department){
+        return employeeRepository.getEmployeeByDepartment(department);
+    }
+    public List<Employee> employeesBySalary(BigDecimal salary){
+        return  employeeRepository.getEmployeeBySalary(salary);
+    }
     public void checkId(){
         IO.println("--------------------------------------------------------------------------------");
         throw new com.dheeraj.payroll.exception.EmployeeNotFoundException("Enter A Valid ID \n--------------------------------------------------------------------------------");

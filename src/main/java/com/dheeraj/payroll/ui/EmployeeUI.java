@@ -21,7 +21,7 @@ public class EmployeeUI {
         this.sc = sc;
     }
 
-    public void output(Employee employee){
+    public void output(@org.jetbrains.annotations.NotNull Employee employee){
         IO.println("\n--------------------------------------------");
         IO.println("Employee ID  : "+employee.getEmployeeId());
         IO.println("Employee Name: "+employee.getEmployeeName());

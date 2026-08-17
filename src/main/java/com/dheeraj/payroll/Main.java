@@ -1,11 +1,13 @@
 package com.dheeraj.payroll;
 
+import com.dheeraj.payroll.model.Payslip;
 import com.dheeraj.payroll.repository.AttendanceRepository;
 import com.dheeraj.payroll.repository.EmployeeRepository;
 import com.dheeraj.payroll.services.AttendanceService;
 import com.dheeraj.payroll.services.EmployeeService;
 import com.dheeraj.payroll.ui.AttendanceUI;
 import com.dheeraj.payroll.ui.EmployeeUI;
+import com.dheeraj.payroll.ui.ReportsUI;
 import com.dheeraj.payroll.util.Generator;
 
 import java.util.Scanner;
@@ -24,6 +26,8 @@ public class Main {
         AttendanceRepository attendanceRepository = new AttendanceRepository();
         AttendanceService attendanceService = new AttendanceService(attendanceRepository,employeeRepository);
         AttendanceUI attendanceUI = new AttendanceUI(attendanceService,sc);
+        Payslip payslip = new Payslip(sc);
+        ReportsUI reportsUI = new ReportsUI(sc,employeeService);
         while (true){
             IO.println("\n========================================");
             IO.println("     Employee Payroll Management");
@@ -88,6 +92,7 @@ public class Main {
                     break;
                 case 9:
                     //calculate salary
+
                     break;
                 case 10:
                     //Generate Payslip
@@ -97,9 +102,11 @@ public class Main {
                     break;
                 case 12:
                     //employee by department
+                    reportsUI.employeeByDepartment();
                     break;
                 case 13:
                     //employee by salary
+                    reportsUI.employeeBySalary();
                     break;
                 case 14:
                     //Highest paid employee
@@ -109,6 +116,7 @@ public class Main {
                     break;
                 case 16:
                     //employee count by department
+                    reportsUI.countByDepartment();
                     break;
                 case 17:
                     //attendance statistics

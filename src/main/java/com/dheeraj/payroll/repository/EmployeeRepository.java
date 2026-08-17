@@ -5,8 +5,8 @@
     import com.dheeraj.payroll.model.Employee;
 
     import java.math.BigDecimal;
-    import java.util.Collection;
-    import java.util.LinkedHashMap;
+    import java.util.*;
+    import java.util.stream.Collectors;
 
     public class EmployeeRepository {
         private final LinkedHashMap<Long, Employee> employees = new LinkedHashMap<>();
@@ -39,5 +39,15 @@
         }
         public Collection<Employee> getAllEmployee(){
             return employees.values().stream().toList();
+        }
+        public List<Employee> getEmployeeByDepartment(Department department){
+            return  employees.values().stream()
+                    .filter(employee -> employee.getDepartment() == department)
+                    .collect(Collectors.toCollection(ArrayList::new));
+        }
+        public List<Employee> getEmployeeBySalary(BigDecimal salary){
+            return employees.values().stream()
+                    .filter(employee -> Objects.equals(employee.getSalary(), salary))
+                    .collect(Collectors.toCollection(ArrayList::new));
         }
     }
