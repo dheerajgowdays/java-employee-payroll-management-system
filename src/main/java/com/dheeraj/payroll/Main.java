@@ -56,9 +56,8 @@ public class Main {
             IO.println("13. EMPLOYEE BY SALARY");
             IO.println("14. HIGHEST PAYED EMPLOYEES");
             IO.println("15. AVERAGE SALARY");
-            IO.println("16. EMPLOYEE COUNT BY DEPARTMENT");
-            IO.println("17. ATTENDANCE STATISTICS\n");
-            IO.println("18. EXIT");
+            IO.println("16. EMPLOYEE COUNT BY DEPARTMENT\n");
+            IO.println("17. EXIT");
             IO.println("\n  Enter Your Choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
@@ -121,15 +120,13 @@ public class Main {
                     break;
                 case 15:
                     //average salary
+                    reportsUI.averageSalary();
                     break;
                 case 16:
                     //employee count by department
                     reportsUI.countByDepartment();
                     break;
                 case 17:
-                    //attendance statistics
-                    break;
-                case 18:
                     //exit
                     IO.println("    THANK YOU   ");
                     System.exit(0);

@@ -50,4 +50,8 @@
                     .filter(employee -> Objects.equals(employee.getSalary(), salary))
                     .collect(Collectors.toCollection(ArrayList::new));
         }
+        public Optional<Employee> highestPaidEmployee(){
+            return employees.values().stream()
+                    .max(Comparator.comparing(Employee::getSalary));
+        }
     }

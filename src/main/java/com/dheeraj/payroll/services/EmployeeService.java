@@ -6,6 +6,7 @@ import com.dheeraj.payroll.model.Employee;
 import com.dheeraj.payroll.repository.EmployeeRepository;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -69,5 +70,19 @@ public class EmployeeService {
     public void checkId(){
         IO.println("--------------------------------------------------------------------------------");
         throw new com.dheeraj.payroll.exception.EmployeeNotFoundException("Enter A Valid ID \n--------------------------------------------------------------------------------");
+    }
+    public Optional<Employee> highestPaidEmployee(){
+        return employeeRepository.highestPaidEmployee();
+    }
+    public BigDecimal averageSalary(Department department){
+        List<Employee> employees = employeeRepository.getEmployeeByDepartment(department);
+        if(employees.isEmpty()){
+            return BigDecimal.ZERO;
+        }
+        BigDecimal totalSalary = employees.stream()
+                .map(Employee::getSalary)
+                .reduce(BigDecimal.ZERO,BigDecimal::add);
+        return totalSalary.divide(BigDecimal.valueOf(employees.size()),2, RoundingMode.HALF_UP);
+
     }
 }

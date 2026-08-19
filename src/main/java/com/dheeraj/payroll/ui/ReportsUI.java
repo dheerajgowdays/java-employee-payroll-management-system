@@ -7,6 +7,7 @@ import com.dheeraj.payroll.services.EmployeeService;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ReportsUI {
@@ -92,5 +93,23 @@ public class ReportsUI {
             IO.println("    Invalid Input ! Please Enter Valid Department");
             IO.println("--------------------------------------------------------");
         }
+    }
+    public void highestPaidEmployee(){
+        IO.println("\n=================================");
+        IO.println("     HIGHEST PAID EMPLOYEE");
+        IO.println("=================================\n");
+        IO.println("-------------------------------------");
+        Optional<Employee> employee = employeeService.highestPaidEmployee();
+        employee.ifPresent(this::output);
+    }
+    public void averageSalary(){
+        IO.println("\n==================================");
+        IO.println("    AVERAGE SALARY BY DEPARTMENT");
+        IO.println("====================================");
+        IO.println("Enter Department: ");
+        Department department = Department.valueOf(sc.nextLine().trim().toUpperCase());
+        IO.println("---------------------------------------------------");
+        System.out.println("Average salary Of department %s%n: "+department+employeeService.averageSalary(department));
+        IO.println("---------------------------------------------------");
     }
 }
