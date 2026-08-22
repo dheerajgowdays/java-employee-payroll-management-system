@@ -16,6 +16,9 @@ public class Employee {
     private final LocalDate joiningDate;
 
     public Employee(long employeeId,String employeeName,Department department,EmployeeType employeeType,BigDecimal salary){
+        if (salary.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Salary cannot be negative");
+        }
         this.employeeId  = employeeId;
         this.department = department;
         this.employeeName = employeeName;
@@ -51,6 +54,9 @@ public class Employee {
     }
 
     public void setSalary(BigDecimal salary) {
+        if (salary.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Salary cannot be negative");
+        }
         this.salary = salary;
     }
     public LocalDate getJoiningDate() {

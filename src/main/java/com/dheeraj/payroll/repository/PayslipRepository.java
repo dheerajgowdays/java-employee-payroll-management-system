@@ -1,10 +1,6 @@
 package com.dheeraj.payroll.repository;
-
-import com.dheeraj.payroll.model.Employee;
 import com.dheeraj.payroll.model.Payslip;
-
 import java.util.LinkedHashMap;
-import java.util.Optional;
 
 public class PayslipRepository {
     private final LinkedHashMap<Long, Payslip> payslips = new LinkedHashMap<>();

@@ -6,7 +6,6 @@ import com.dheeraj.payroll.services.EmployeeService;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -109,7 +108,7 @@ public class ReportsUI {
         IO.println("Enter Department: ");
         Department department = Department.valueOf(sc.nextLine().trim().toUpperCase());
         IO.println("---------------------------------------------------");
-        System.out.println("Average salary Of department %s%n: "+department+employeeService.averageSalary(department));
-        IO.println("---------------------------------------------------");
+        System.out.printf("Average salary of department %s: %s%n", department, employeeService.averageSalary(department));
+        IO.println("\n---------------------------------------------------");
     }
 }
