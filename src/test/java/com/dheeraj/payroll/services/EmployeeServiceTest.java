@@ -94,4 +94,49 @@ public class EmployeeServiceTest {
         employeeService.deleteEmployee(1);
         assertFalse(employeeService.checkID(1));
     }
+    @Test
+    void shouldGetEmployeesByDepartment(){
+        EmployeeRepository employeeRepository = new EmployeeRepository();
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        Employee employee0 = new Employee(1,"Dheeraj", Department.DEVELOPMENT, EmployeeType.FULL_TIME,new BigDecimal("50000"));
+        Employee employee1 = new Employee(2,"Dheeraj Gowda ", Department.DEVELOPMENT, EmployeeType.PART_TIME,new BigDecimal("500000"));
+        employeeService.addEmployee(1,employee0);
+        employeeService.addEmployee(2,employee1);
+        List<Employee> list = employeeService.employeesByDepartment(Department.DEVELOPMENT);
+        assertEquals(2,list.size());
+    }
+    @Test
+    void shouldGetEmployeesBySalary(){
+        EmployeeRepository employeeRepository = new EmployeeRepository();
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        Employee employee0 = new Employee(1,"Dheeraj", Department.DEVELOPMENT, EmployeeType.FULL_TIME,new BigDecimal("50000"));
+        Employee employee1 = new Employee(2,"Dheeraj Gowda ", Department.DEVELOPMENT, EmployeeType.PART_TIME,new BigDecimal("500000"));
+        employeeService.addEmployee(1,employee0);
+        employeeService.addEmployee(2,employee1);
+        List<Employee> list = employeeService.employeesBySalary(new BigDecimal("50000"));
+        assertEquals(1,list.size());
+    }
+    @Test
+    void shouldGetHighestPaidEmployee(){
+        EmployeeRepository employeeRepository = new EmployeeRepository();
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        Employee employee0 = new Employee(1,"Dheeraj", Department.DEVELOPMENT, EmployeeType.FULL_TIME,new BigDecimal("50000"));
+        Employee employee1 = new Employee(2,"Dheeraj Gowda ", Department.DEVELOPMENT, EmployeeType.PART_TIME,new BigDecimal("500000"));
+        employeeService.addEmployee(1,employee0);
+        employeeService.addEmployee(2,employee1);
+        Optional<Employee> employee = employeeService.highestPaidEmployee();
+        assertTrue(employee.isPresent());
+        assertEquals("Dheeraj Gowda ",employee.get().getEmployeeName());
+    }
+    @Test
+    void shouldGetAverageSalary(){
+        EmployeeRepository employeeRepository = new EmployeeRepository();
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        Employee employee0 = new Employee(1,"Dheeraj", Department.DEVELOPMENT, EmployeeType.FULL_TIME,new BigDecimal("50000"));
+        Employee employee1 = new Employee(2,"Dheeraj Gowda ", Department.DEVELOPMENT, EmployeeType.PART_TIME,new BigDecimal("500000"));
+        employeeService.addEmployee(1,employee0);
+        employeeService.addEmployee(2,employee1);
+        BigDecimal average = employeeService.averageSalary(Department.DEVELOPMENT);
+        assertEquals(new BigDecimal("275000.00"),average);
+    }
 }

@@ -67,10 +67,6 @@ public class EmployeeService {
     public List<Employee> employeesBySalary(BigDecimal salary){
         return  employeeRepository.getEmployeeBySalary(salary);
     }
-    public void checkId(){
-        IO.println("--------------------------------------------------------------------------------");
-        throw new com.dheeraj.payroll.exception.EmployeeNotFoundException("Enter A Valid ID \n--------------------------------------------------------------------------------");
-    }
     public Optional<Employee> highestPaidEmployee(){
         return employeeRepository.highestPaidEmployee();
     }

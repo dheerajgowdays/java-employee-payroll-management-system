@@ -20,14 +20,12 @@ public class EmployeeTest {
         assertEquals(EmployeeType.FULL_TIME,employee.getEmployeeType());
         assertEquals(new BigDecimal("50000"),employee.getSalary());
     }
-
     @Test
     void updateEmployeeName(){
         Employee employee = new Employee(1,"Dheeraj", Department.DEVELOPMENT, EmployeeType.FULL_TIME,new BigDecimal("50000"));
         employee.setEmployeeName("Gowda");
         assertEquals("Gowda",employee.getEmployeeName());
     }
-
     @Test
     void updateEmployeeDepartment(){
         Employee employee = new Employee(1,"Dheeraj", Department.DEVELOPMENT, EmployeeType.FULL_TIME,new BigDecimal("50000"));
@@ -48,11 +46,9 @@ public class EmployeeTest {
     }
     @Test
     void rejectNegativeSalary(){
-        assertThrows(IllegalArgumentException.class,()-> {
-            new Employee(1, "Dheeraj",
-                    Department.DEVELOPMENT,
-                    EmployeeType.FULL_TIME,
-                    new BigDecimal("-500000"));
-        });
+        assertThrows(IllegalArgumentException.class,()-> new Employee(1, "Dheeraj",
+                Department.DEVELOPMENT,
+                EmployeeType.FULL_TIME,
+                new BigDecimal("-500000")));
     }
 }
