@@ -55,4 +55,7 @@ public class PayslipService {
         }
         return Optional.empty();
     }
+    public boolean check(long id){
+        return employeeService.checkID(id);
+    }
 }

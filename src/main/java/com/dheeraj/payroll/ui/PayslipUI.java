@@ -61,10 +61,16 @@ public class PayslipUI {
         IO.println("\n========================================");
         IO.println("          GENERATE PAYSLIP");
         IO.println("========================================\n");
-        IO.println("Enter Employee ID: ");
+        IO.print("Enter Employee ID: ");
         try{
             long employeeId = sc.nextLong();
             sc.nextLine();
+            if(!payslipService.check(employeeId)){
+                IO.println("--------------------------------------------");
+                IO.println("     Employee Does not exist with Id: "+employeeId);
+                IO.println("--------------------------------------------");
+                return;
+            }
             try{
                 IO.print("Enter PayPeriod: ");
                 YearMonth payPeriod = YearMonth.parse(sc.nextLine().trim());

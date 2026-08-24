@@ -61,6 +61,8 @@ public class Main {
             IO.println("\n  Enter Your Choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
+
+            
             switch (choice) {
                 case 1:
                     //add employee
